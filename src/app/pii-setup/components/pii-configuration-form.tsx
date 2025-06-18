@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import { useCallback, memo } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -20,7 +21,29 @@ interface PiiConfigurationFormProps {
   isSubmitting?: boolean
 }
 
-export function PiiConfigurationForm({
+// Move FormField outside the main component to prevent recreation
+const FormField = memo(({
+  label,
+  required = false,
+  children,
+  className = "",
+}: {
+  label: string
+  required?: boolean
+  children: React.ReactNode
+  className?: string
+}) => (
+  <div className={`space-y-2 ${className}`}>
+    <Label className="text-sm font-medium text-gray-700">
+      {label} {required && <span className="text-red-500">*</span>}
+    </Label>
+    {children}
+  </div>
+))
+
+FormField.displayName = 'FormField'
+
+export const PiiConfigurationForm = memo(function PiiConfigurationForm({
   formData,
   onInputChange,
   onSubmit,
@@ -28,30 +51,52 @@ export function PiiConfigurationForm({
   isEditMode,
   isSubmitting = false,
 }: PiiConfigurationFormProps) {
-  const FormField = ({
-    label,
-    required = false,
-    children,
-    className = "",
-  }: {
-    label: string
-    required?: boolean
-    children: React.ReactNode
-    className?: string
-  }) => (
-    <div className={`space-y-2 ${className}`}>
-      <Label className="text-sm font-medium text-gray-700">
-        {label} {required && <span className="text-red-500">*</span>}
-      </Label>
-      {children}
-    </div>
-  )
+  
+  // Create stable event handlers
+  const handleDataElementNameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    onInputChange("dataElementName", e.target.value)
+  }, [onInputChange])
+
+  const handleDescriptionChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    onInputChange("description", e.target.value)
+  }, [onInputChange])
+
+  const handleAccessControlLevelChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    onInputChange("accessControlLevel", e.target.value)
+  }, [onInputChange])
+
+  const handleRetentionPolicyChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    onInputChange("retentionPolicy", e.target.value)
+  }, [onInputChange])
+
+  const handlePurposeChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    onInputChange("purpose", e.target.value)
+  }, [onInputChange])
+
+  const handlePiiCategoryChange = useCallback((value: string) => {
+    onInputChange("piiCategory", value)
+  }, [onInputChange])
+
+  const handleSensitivityLevelChange = useCallback((value: string) => {
+    onInputChange("sensitivityLevel", value)
+  }, [onInputChange])
+
+  const handleMaskingRequiredChange = useCallback((checked: boolean) => {
+    onInputChange("maskingRequired", checked)
+  }, [onInputChange])
+
+  const handleEncryptionRequiredChange = useCallback((checked: boolean) => {
+    onInputChange("encryptionRequired", checked)
+  }, [onInputChange])
 
   return (
     <form onSubmit={onSubmit} className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <FormField label="PII Category" required>
-          <Select value={formData.piiCategory || ""} onValueChange={(value) => onInputChange("piiCategory", value)}>
+          <Select 
+            value={formData.piiCategory || ""} 
+            onValueChange={handlePiiCategoryChange}
+          >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select PII category" />
             </SelectTrigger>
@@ -69,7 +114,7 @@ export function PiiConfigurationForm({
           <Input
             type="text"
             value={formData.dataElementName || ""}
-            onChange={(e) => onInputChange("dataElementName", e.target.value)}
+            onChange={handleDataElementNameChange}
             placeholder="e.g., Email Address, Phone Number"
             className="w-full"
             disabled={isSubmitting}
@@ -80,7 +125,7 @@ export function PiiConfigurationForm({
         <FormField label="Description" required className="md:col-span-2">
           <Textarea
             value={formData.description || ""}
-            onChange={(e) => onInputChange("description", e.target.value)}
+            onChange={handleDescriptionChange}
             placeholder="Brief description of the data element and its usage"
             className="min-h-[80px] w-full resize-none"
             disabled={isSubmitting}
@@ -90,7 +135,7 @@ export function PiiConfigurationForm({
         <FormField label="Sensitivity Level" required>
           <Select
             value={formData.sensitivityLevel || ""}
-            onValueChange={(value) => onInputChange("sensitivityLevel", value)}
+            onValueChange={handleSensitivityLevelChange}
           >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select sensitivity level" />
@@ -109,7 +154,7 @@ export function PiiConfigurationForm({
           <Input
             type="text"
             value={formData.accessControlLevel || ""}
-            onChange={(e) => onInputChange("accessControlLevel", e.target.value)}
+            onChange={handleAccessControlLevelChange}
             placeholder="e.g., Restricted - Manager Approval Required"
             className="w-full"
             disabled={isSubmitting}
@@ -121,7 +166,7 @@ export function PiiConfigurationForm({
           <Input
             type="text"
             value={formData.retentionPolicy || ""}
-            onChange={(e) => onInputChange("retentionPolicy", e.target.value)}
+            onChange={handleRetentionPolicyChange}
             placeholder="e.g., 7 years, 5 years, Indefinite"
             className="w-full"
             disabled={isSubmitting}
@@ -132,7 +177,7 @@ export function PiiConfigurationForm({
         <FormField label="Purpose" required className="md:col-span-2">
           <Textarea
             value={formData.purpose || ""}
-            onChange={(e) => onInputChange("purpose", e.target.value)}
+            onChange={handlePurposeChange}
             placeholder="Detailed purpose for collecting and using this data"
             className="min-h-[80px] w-full resize-none"
             disabled={isSubmitting}
@@ -147,7 +192,7 @@ export function PiiConfigurationForm({
             <Checkbox
               id="maskingRequired"
               checked={formData.maskingRequired || false}
-              onCheckedChange={(checked) => onInputChange("maskingRequired", !!checked)}
+              onCheckedChange={handleMaskingRequiredChange}
               disabled={isSubmitting}
             />
             <Label htmlFor="maskingRequired" className="text-sm font-normal cursor-pointer">
@@ -158,7 +203,7 @@ export function PiiConfigurationForm({
             <Checkbox
               id="encryptionRequired"
               checked={formData.encryptionRequired || false}
-              onCheckedChange={(checked) => onInputChange("encryptionRequired", !!checked)}
+              onCheckedChange={handleEncryptionRequiredChange}
               disabled={isSubmitting}
             />
             <Label htmlFor="encryptionRequired" className="text-sm font-normal cursor-pointer">
@@ -187,4 +232,4 @@ export function PiiConfigurationForm({
       </div>
     </form>
   )
-}
+})
