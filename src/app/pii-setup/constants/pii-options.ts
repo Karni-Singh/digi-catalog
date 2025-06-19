@@ -1,4 +1,4 @@
-import type { PiiConfigurationFormData } from "@/types/pii"
+import type { PiiConfigurationFormData } from "@/app/pii-setup/types/pii"
 
 export const PII_CATEGORIES = [
   "Personal Identifiers",

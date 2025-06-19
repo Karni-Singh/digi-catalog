@@ -4,8 +4,8 @@ import React from "react"
 import { useState, useEffect, useRef, useMemo } from "react"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { PiiConfigurationForm } from "./pii-configuration-form"
-import { DEFAULT_FORM_DATA } from "@/constants/pii-options"
-import type { PiiConfigurationDialogProps, PiiConfigurationFormData } from "@/types/pii"
+import { DEFAULT_FORM_DATA } from "@/app/pii-setup/constants/pii-options"
+import type { PiiConfigurationDialogProps, PiiConfigurationFormData } from "@/app/pii-setup/types/pii"
 
 export function PiiConfigurationDialog({
   isOpen,

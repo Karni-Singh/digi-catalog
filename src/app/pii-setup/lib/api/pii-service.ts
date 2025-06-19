@@ -1,4 +1,4 @@
-import type { PiiConfiguration, PiiConfigurationFormData, ApiResponse } from "@/types/pii"
+import type { PiiConfiguration, PiiConfigurationFormData, ApiResponse } from "@/app/pii-setup/types/pii"
 
 const API_BASE_URL = "https://6851ae668612b47a2c0af27f.mockapi.io/pii/identifiers/PII"
 

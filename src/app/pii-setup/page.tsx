@@ -7,8 +7,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { PiiConfigurationTable } from "./components/pii-configuration-table"
 import { PiiConfigurationDialog } from "./components/pii-configuration-dialog"
-import { usePiiConfigurations } from "@/hooks/use-pii-configurations"
-import type { PiiConfiguration } from "@/types/pii"
+import { usePiiConfigurations } from "@/app/pii-setup/hooks/use-pii-configurations"
+import type { PiiConfiguration } from "@/app/pii-setup/types/pii"
 import Header from "@/app/components/Header"
 
 export default function PiiSetupPage() {
