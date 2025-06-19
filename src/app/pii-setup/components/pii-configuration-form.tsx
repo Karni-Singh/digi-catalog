@@ -9,8 +9,8 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { Loader2 } from "lucide-react"
-import { PII_CATEGORIES, SENSITIVITY_LEVELS } from "@/constants/pii-options"
-import type { PiiConfigurationFormData } from "@/types/pii"
+import { PII_CATEGORIES, SENSITIVITY_LEVELS } from "@/app/pii-setup/constants/pii-options"
+import type { PiiConfigurationFormData } from "@/app/pii-setup/types/pii"
 
 interface PiiConfigurationFormProps {
   formData: PiiConfigurationFormData

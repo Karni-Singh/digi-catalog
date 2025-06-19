@@ -6,7 +6,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ChevronDown, ChevronRight, Database, Settings, Shield, BookOpen, Layers } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { cn } from "@/app/pii-setup/lib/utils"
 
 interface NavItem {
   label: string

@@ -16,8 +16,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import type { PiiConfigurationTableProps } from "@/types/pii"
-import { SENSITIVITY_BADGE_VARIANTS, TABLE_HEADERS } from "@/constants/pii-options"
+import type { PiiConfigurationTableProps } from "@/app/pii-setup/types/pii"
+import { SENSITIVITY_BADGE_VARIANTS, TABLE_HEADERS } from "@/app/pii-setup/constants/pii-options"
 import { useState } from "react"
 
 export function PiiConfigurationTable({

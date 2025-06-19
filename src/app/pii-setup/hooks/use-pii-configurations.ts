@@ -1,8 +1,8 @@
 "use client"
 
 import { useState, useEffect, useCallback } from "react"
-import type { PiiConfiguration, PiiConfigurationFormData } from "@/types/pii"
-import { piiApiService } from "@/lib/api/pii-service"
+import type { PiiConfiguration, PiiConfigurationFormData } from "@/app/pii-setup/types/pii"
+import { piiApiService } from "@/app/pii-setup/lib/api/pii-service"
 import { toast } from "sonner" // You can use any toast library
 
 interface UsePiiConfigurationsReturn {
